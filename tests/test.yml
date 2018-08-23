@@ -1,1 +1,5 @@
-# entry point for VyOS provider tests
+---
+# entry point for VyOS provider role tests
+
+- roles:
+    - ansible-network.vyos
