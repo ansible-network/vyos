@@ -21,5 +21,4 @@
 - name: set ansible_provider_functions fact
   set_fact:
     ansible_network_provider_functions:
-      - clear_sessions
       - get_facts
