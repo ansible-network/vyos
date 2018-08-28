@@ -1,0 +1,9 @@
+---
+
+- name: Set initiator user fact to 'vyos' if not defined
+  set_fact:
+    cloud_vpn_initiator_user: "{{ cloud_vpn_initiator_user | default('vyos') }}"
+
+- name: Set initiator outside interface fact to 'eth0' if not defined
+  set_fact:
+    cloud_vpn_initiator_outside_interface: "{{ cloud_vpn_initiator_outside_interface | default('eth0') }}"
