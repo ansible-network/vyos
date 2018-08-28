@@ -16,4 +16,3 @@
 - name: Pause for SSH daemon to settle and accept connections
   pause:
     seconds: "{{ cloud_vpn_pause_before_config_seconds }}"
-
