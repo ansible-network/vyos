@@ -7,7 +7,6 @@
 - name: set role supported functions
   set_fact:
     vyos_functions:
-      - load_config
       - get_facts
       - get_config
       - noop
