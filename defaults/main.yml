@@ -1,2 +1,14 @@
 ---
 # defaults file for ansible-network.vyos
+#
+vyos_config_file: "{{ config_file | default(None) }}"
+vyos_config_text: "{{ config_text | default(None) }}"
+vyos_config_commit_comment: "{{ commit_comment | default(None) }}"
+vyos_config_replace: "{{ replace | default(False) }}"
+vyos_config_working_dir: ~/.ansible/vyos
+vyos_config_checkpoint_filename: chk_ansible
+vyos_config_rollback_enabled: "{{ rollback | default(True) }}"
+vyos_config_ignore_keywords:
+  - exit
+  - commit
+  - discard

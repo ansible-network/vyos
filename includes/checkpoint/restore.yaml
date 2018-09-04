@@ -1,0 +1,35 @@
+# Restore configuration if loading configuration fails
+#
+- name: get current files on running://config
+  cli:
+    command: "show file running://config/"
+  register: vyos_dir_listing
+
+- name: verify checkpoint file exists
+  fail:
+    msg: missing checkpoint file, cannot rollback
+  when: vyos_config_checkpoint_filename not in vyos_dir_listing.stdout
+
+- block:
+  - name: enter configuration mode
+    cli:
+      command: configure
+
+  - name: restore previous configuration
+    cli:
+      command: "load /config/{{ vyos_config_checkpoint_filename }}"
+    register: vyos_config_restore
+
+  - name: commit
+    cli:
+      command: commit
+    when: "'Load complete' in vyos_config_restore.stdout"
+    changed_when: true
+
+  - name: display message
+    debug:
+      msg: "successfully restored checkpoint configuration"
+
+  always:
+  - name: invoke remove
+    include_tasks: "{{ role_path }}/includes/checkpoint/remove.yaml"

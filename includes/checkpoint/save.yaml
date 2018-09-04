@@ -1,0 +1,31 @@
+- block:
+  - name: enter configuration mode
+    cli:
+      command: configure
+
+  - name: compare current config with saved config
+    cli:
+      command: compare saved
+    register: vyos_config_compare
+
+  - name: save config
+    cli:
+      command: save
+    when: vyos_config_compare.stdout != '[edit]'
+
+  - name: display message
+    debug:
+      msg: nothing to save
+    when: vyos_config_compare.stdout == '[edit]'
+
+  - name: leave configuration mode
+    cli:
+      command: exit
+  rescue:
+  - name: leave configuration mode
+    cli:
+      command: exit
+
+  - name: mark the host as failed
+    fail:
+      msg: "error saving configuration onto target device"

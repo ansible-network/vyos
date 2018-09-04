@@ -1,0 +1,7 @@
+# save_config task
+#
+- name: initialize function
+  include_tasks: includes/init.yaml
+
+- name: Include save_config task
+  include_tasks: includes/checkpoint/save.yaml

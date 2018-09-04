@@ -1,0 +1,21 @@
+# only create the checkpoint configuration file if rollback is currently
+# enabled (default)
+- name: save current configuration
+  include_tasks: "{{ role_path }}/includes/checkpoint/save.yaml"
+
+- name: get current files on running://config
+  cli:
+    command: "show file running://config/"
+  register: vyos_dir_listing
+
+- name: delete checkpoint file
+  vyos_command:
+    commands:
+      - command: "delete file running://config/{{ vyos_config_checkpoint_filename }}"
+        prompt: "Do you want to erase the running://config/{{ vyos_config_checkpoint_filename }} file"
+        answer: 'y'
+  when: vyos_config_checkpoint_filename in vyos_dir_listing.stdout
+
+- name: create configuration checkpoint
+  cli:
+    command: "copy file running://config/config.boot to running://config/{{ vyos_config_checkpoint_filename }}"
