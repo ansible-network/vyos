@@ -6,7 +6,7 @@
 
 - name: display the role version to stdout
   debug:
-    msg: "ansible_network.arista_vyos version is {{ ansible_network_vyos_version }}"
+    msg: "ansible_network.vyos version is {{ ansible_network_vyos_version }}"
 
 - name: validate ansible_network_os == 'vyos'
   fail:
@@ -17,8 +17,3 @@
   fail:
     msg: "expected ansible_network to be `network_cli`, got `{{ ansible_connection }}`"
   when: ansible_connection != 'network_cli'
-
-- name: set ansible_provider_functions fact
-  set_fact:
-    ansible_network_provider_functions:
-      - get_facts
