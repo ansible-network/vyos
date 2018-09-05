@@ -1,6 +1,0 @@
-- name: delete checkpoint file
-  vyos_command:
-    commands:
-      - command: "delete file running://config/{{ vyos_config_checkpoint_filename }}"
-        prompt: "Do you want to erase the running://config/{{ vyos_config_checkpoint_filename }} file"
-        answer: 'y'

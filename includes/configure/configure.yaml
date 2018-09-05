@@ -1,9 +1,5 @@
 # configure
 #
-- name: create checkpoint configuration on target device
-  include_tasks: "{{ role_path }}/includes/checkpoint/create.yaml"
-  when: vyos_rollback_enabled 
-
 - name: load configuration
   block:
     - name: enter configuration mode
@@ -43,29 +39,23 @@
         command: discard
       when: ansible_check_mode
 
+    - name: display message for check mode
+      debug:
+        msg: "Changes are not committed onto target device"
+      when: ansible_check_mode
+
+    - name: display message
+      debug:
+        msg: "Successfully loaded configuration onto target device"
+      when: not ansible_check_mode
+
     - name: leave configuration mode
       cli:
         command: exit
 
   rescue:
-    - name: discard configuration
-      cli:
-        command: discard
-
-    - name: leave configuration mode
-      cli:
-        command: exit
-
-    - name: rollback initiated
-      block:
-      - name: display message
-        debug:
-          msg: "error loading configuration, restoring checkpoint"
-
-      - name: restore previous checkpoint configuration
-        include_tasks: "{{ role_path }}/includes/checkpoint/restore.yaml"
-      when: nxos_rollback_enabled
-
     - name: mark the host as failed
       fail:
         msg: "error loading configuration onto target device"
+      when: not ansible_check_mode
+      delegate_to: localhost

@@ -11,5 +11,10 @@
   set_fact:
     vyos_config_text: "{{ lookup('config_template', vyos_config_file) | join('\n') }}"
 
+- name: Include replace task
+  include_tasks: includes/configure/replace.yaml
+  when: vyos_config_replace
+
 - name: Include configure task
   include_tasks: includes/configure/configure.yaml
+  when: not vyos_config_replace

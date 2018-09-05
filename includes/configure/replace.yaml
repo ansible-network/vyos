@@ -1,0 +1,105 @@
+- block:
+  - name: get current files on running://config
+    cli:
+      command: "show file /tmp/"
+    register: vyos_dir_listing
+
+  - name: remove old config file from device
+    vyos_command:
+      commands:
+        - command: "delete file /tmp/{{ vyos_config_temp_config_file }}"
+          prompt: "Do you want to erase the running:///tmp/{{ vyos_config_temp_config_file }} file"
+          answer: 'y'
+    when: vyos_config_temp_config_file in vyos_dir_listing.stdout
+
+  - name: create temp working dir
+    file:
+      path: "{{ vyos_config_working_dir }}"
+      state: directory
+    run_once: true
+    check_mode: false
+
+    # always set check mode to false here as this task needs to always run
+    # in order to fully execute the task list.
+  - name: template source config
+    copy:
+      content: "{{ vyos_config_text }}"
+      dest: "{{ vyos_config_working_dir }}/{{ vyos_config_temp_config_file }}"
+    check_mode: false
+
+  - name: copy configuration file to device
+    net_put:
+      src: "{{ vyos_config_working_dir }}/{{ vyos_config_temp_config_file }}"
+      dest: "/tmp/{{ vyos_config_temp_config_file }}"
+
+  - block:
+    - name: enter configuration mode
+      cli:
+        command: configure
+
+    - name: replace currect running configuration
+      cli:
+        command: "load /tmp/{{ vyos_config_temp_config_file }}"
+      register: vyos_config_replace_result
+
+    - name: compare
+      cli:
+        command: compare
+      register: vyos_config_replace_diff
+      changed_when: vyos_config_replace_diff.stdout
+
+    - name: display config diff
+      debug:
+        msg: "{{ vyos_config_replace_diff.stdout.splitlines() }}"
+
+    - name: commit the changes
+      cli:
+        command: commit
+      when: not ansible_check_mode and vyos_config_replace_result.stdout is not search("failed") and vyos_config_replace_diff.stdout is not search("No changes") and vyos_config_commit_comment == ""
+      changed_when: true
+
+    - name: commit the configuration with comment
+      cli:
+        command: "commit comment {{ vyos_config_commit_comment }}"
+      when: not ansible_check_mode and vyos_config_replace_result.stdout is not search("failed") and vyos_config_replace_diff.stdout is not search("No changes") and vyos_config_commit_comment != ""
+      changed_when: true
+
+    - name: display message
+      debug:
+        msg: "successfully replaced running configuration"
+      when: not ansible_check_mode and vyos_config_replace_result.stdout is not search("failed") and vyos_config_replace_diff.stdout is not search("No changes")
+
+    - name: display message
+      debug:
+        msg: "nothing to commit"
+      when: vyos_config_replace_diff.stdout is search("No changes")
+
+    always:
+    - name: discard
+      cli:
+        command: discard
+      when: vyos_config_replace_result.stdout is search("failed") or ansible_check_mode or vyos_config_replace_diff.stdout is search("No changes")
+
+    - name: leave configuration mode
+      cli:
+        command: exit
+
+  always:
+  - name: remove uploaded configuration
+    vyos_command:
+      commands:
+        - command: "delete file /tmp/{{ vyos_config_temp_config_file }}"
+          prompt: "Do you want to erase the running:///tmp/{{ vyos_config_temp_config_file }} file"
+          answer: 'y'
+
+  - name: remove temp working dir
+    file:
+      path: "{{ vyos_config_working_dir }}"
+      state: absent
+    run_once: true
+    when: vyos_config_remove_temp_files
+
+  - name: set host failed
+    fail:
+      msg: "error loading configuration on target device, replace failed"
+    when: vyos_config_replace_result.stdout is search("failed") and not ansible_check_mode

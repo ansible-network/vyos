@@ -22,5 +22,8 @@ argument_spec:
       aliases:
         - config_file
 
+mutually_exclusive:
+  - ['vyos_config_text', 'vyos_config_file']
+
 required_one_of:
   - ['vyos_config_text', 'vyos_config_file']
