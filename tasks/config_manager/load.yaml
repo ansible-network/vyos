@@ -1,7 +1,7 @@
 # load_config task
 #
 - name: initialize function
-  include_tasks: includes/init.yaml
+  include_tasks: ../includes/init.yaml
 
 - name: validate task arguments
   validate_role_spec:
@@ -10,6 +10,7 @@
 - name: lookup config file
   set_fact:
     vyos_config_text: "{{ lookup('config_template', vyos_config_file) | join('\n') }}"
+  when: vyos_config_file != ''
 
 - name: Include replace task
   include_tasks: includes/configure/replace.yaml

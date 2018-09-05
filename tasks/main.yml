@@ -3,18 +3,3 @@
 #
 - name: initialize function
   include_tasks: includes/init.yaml
-
-- name: set role supported functions
-  set_fact:
-    vyos_functions:
-      - load_config
-      - save_config
-      - noop
-
-- name: validate the requested function is supported
-  fail:
-    msg: "invalid function specified, expected one of {{ vyos_functions }}, got {{ function }}"
-  when: function | default('noop') not in vyos_functions
-
-- name: include function specific tasks and run
-  include_tasks: "{{ function  | default('noop') }}.yaml"
