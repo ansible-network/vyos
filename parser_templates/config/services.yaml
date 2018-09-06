@@ -1,0 +1,71 @@
+# parser template for ansible-network.vyos config - services
+---
+- name: "match services - https"
+  pattern_match:
+    regex: "https {"
+    match_all: yes
+    match_greedy: yes
+  register: https
+
+- name: "match service - ssh"
+  pattern_match:
+    regex: "ssh {"
+    match_all: yes
+    match_greedy: yes
+  register: ssh
+
+- name: "match https service values"
+  pattern_group:
+    - name: "match http-redirect status"
+      pattern_match:
+        regex: "http-redirect (\\S+)"
+        content: "{{ item }}"
+      register: http_redirect
+
+    - name: "match listen address"
+      pattern_match:
+        regex: "listen-address (.+)"
+        content: "{{ item }}"
+      register: http_listen_addr
+
+  loop: "{{ https }}"
+  register: https_info
+
+- name: "match ssh service values"
+  pattern_group:
+    - name: "match ssh port"
+      pattern_match:
+        regex: "port (\\d+)"
+        content: "{{ item }}"
+      register: ssh_port
+
+    - name: "match listen address"
+      pattern_match:
+        regex: "listen-address (.+)"
+        content: "{{ item }}"
+      register: ssh_listen_addr
+
+  loop: "{{ ssh }}"
+  register: ssh_info
+
+- name: template entries
+  json_template:
+    template:
+      - key: https
+        elements:
+          - key: redirect
+            value: "{{ item.http_redirect.matches.0 }}"
+          - key: listen_addr
+            value: "{{ item.http_listen_addr.matches.0 }}"
+        repeat_for: "{{ https_info }}"
+      - key: ssh
+        elements:
+          - key: port
+            value: "{{ item.ssh_port.matches.0 }}"
+          - key: listen_addr
+            value: "{{ item.ssh_listen_addr.matches.0 }}"
+        repeat_for: "{{ ssh_info }}"
+
+  register: services
+  extend: vyos.config
+  export: yes
