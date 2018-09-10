@@ -9,6 +9,7 @@ vyos_config_working_dir: ~/.ansible/vyos
 vyos_config_temp_config_file: "tmp_{{ inventory_hostname_short }}"
 vyos_config_remove_temp_files: "{{ remove_temp_files | default(True) }}"
 vyos_config_ignore_keywords:
-  - exit
   - commit
   - discard
+  - exit
+  - exit discard

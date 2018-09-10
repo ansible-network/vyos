@@ -1,7 +1,7 @@
 # load_config task
 #
 - name: initialize function
-  include_tasks: ../includes/init.yaml
+  include_tasks: includes/init.yaml
 
 - name: validate task arguments
   validate_role_spec:
