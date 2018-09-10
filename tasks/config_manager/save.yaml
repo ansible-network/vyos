@@ -31,7 +31,7 @@
     - name: leave configuration mode
       cli:
         command: exit
-    when: not ansible_check_mode
+      when: not ansible_check_mode
 
     rescue:
     - name: leave configuration mode
