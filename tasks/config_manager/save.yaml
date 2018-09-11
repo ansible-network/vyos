@@ -1,0 +1,43 @@
+# save_config task
+#
+- name: initialize function
+  include_tasks: includes/init.yaml
+
+- block:
+  - name: enter configuration mode
+    cli:
+      command: configure
+
+  - name: compare current config with saved config
+    cli:
+      command: compare saved
+    register: vyos_config_compare
+
+  - name: display diff
+    debug:
+      msg: "{{ vyos_config_compare.stdout.splitlines() }}"
+
+  - block:
+    - name: save config
+      cli:
+        command: save
+      when: vyos_config_compare.stdout != '[edit]'
+
+    - name: display message
+      debug:
+        msg: nothing to save
+      when: vyos_config_compare.stdout == '[edit]'
+
+    - name: leave configuration mode
+      cli:
+        command: exit
+      when: not ansible_check_mode
+
+    rescue:
+    - name: leave configuration mode
+      cli:
+        command: exit
+
+    - name: mark the host as failed
+      fail:
+        msg: "error saving configuration onto target device"
