@@ -1,0 +1,66 @@
+# parser template for ansible-network.vyos config - system
+---
+- name: "match sections"
+  pattern_match:
+    regex: "host-name (.+)"
+  register: hostname
+
+- name: "match ip domain-name"
+  pattern_match:
+    regex: "domain-name (.+)"
+  register: domain_name
+
+- name: "match name servers section"
+  pattern_match:
+    regex: "name-server (.*)"
+    match_all: yes
+  register: name_servers
+  export: yes
+
+- name: "match users section"
+  pattern_match:
+    regex: "user .+"
+    match_all: yes
+    match_greedy: yes
+  register: users
+
+- name: "match user values"
+  pattern_group:
+    - name: "match name"
+      pattern_match:
+        regex: "user (\\S+)"
+        content: "{{ item }}"
+      register: name
+
+    - name: "match level"
+      pattern_match:
+        regex: "level (\\S+)"
+        content: "{{ item }}"
+      register: level
+
+  loop: "{{ users }}"
+  register: user_info
+
+- name: template entries
+  json_template:
+    template:
+      - key: hostname
+        value: "{{ hostname.matches.0 }}"
+      - key: domain_name
+        value: "{{ domain_name.matches.0 }}"
+      - key: name_servers
+        elements:
+          - key: server
+            value: "{{ item.matches }}"
+        repeat_for: "{{ name_servers }}"
+      - key: users
+        elements:
+          - key: name
+            value: "{{ item.name.matches.0 }}"
+          - key: level
+            value: "{{ item.level.matches.0 }}"
+        repeat_for: "{{ user_info }}"
+
+  register: system
+  extend: vyos.config
+  export: yes

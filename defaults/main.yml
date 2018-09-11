@@ -1,2 +1,9 @@
 ---
 # defaults file for ansible-network.vyos
+#
+vyos_config_source:
+  running: show configuration
+  startup: less /config/config.boot
+
+vyos_get_facts_command_map: "{{ role_path }}/vars/get_facts_command_map.yaml"
+vyos_get_facts_subset: "{{ subset | default(['default']) }}"
