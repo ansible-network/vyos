@@ -1,0 +1,96 @@
+# parser template for ansible-network.vyos config - interfaces
+---
+- name: "match interface section"
+  pattern_match:
+    regex: "ethernet .+"
+    match_all: yes
+    match_greedy: yes
+  register: context
+
+- name: "match interface values"
+  pattern_group:
+    - name: "match name"
+      pattern_match:
+        regex: "ethernet (\\S+)"
+        content: "{{ item }}"
+      register: name
+
+    - name: "match description"
+      pattern_match:
+        regex: "description (.+)"
+        content: "{{ item }}"
+      register: description
+
+    - name: "match name"
+      pattern_match:
+        regex: "ethernet (\\S+)"
+        content: "{{ item }}"
+      register: name
+
+    - name: "match ip address"
+      pattern_match:
+        regex: "address (\\S+)/(\\d+)"
+        content: "{{ item }}"
+      register: ipaddr
+
+    - name: "match hardware id"
+      pattern_match:
+        regex: "hw-id (.+)"
+        content: "{{ item }}"
+      register: hw_id
+
+    - name: "match mtu"
+      pattern_match:
+        regex: "mtu (.+)"
+        content: "{{ item }}"
+      register: mtu
+
+    - name: "match smp affinity"
+      pattern_match:
+        regex: "smp_affinity (\\S+)"
+        content: "{{ item }}"
+      register: smp
+
+    - name: "match speed"
+      pattern_match:
+        regex: "speed (\\S+)"
+        content: "{{ item }}"
+      register: speed
+
+    - name: match state
+      pattern_match:
+        regex: "(disable)"
+        content: "{{ item }}"
+      register: enabled
+
+  loop: "{{ context }}"
+  register: matches
+
+- name: template entries
+  json_template:
+    template:
+      - key: "{{ item.name.matches.0 }}"
+        object:
+          - key: description
+            value: "{{ item.description.matches.0 }}"
+          - key: hardware_id
+            value: "{{ item.hw_id.matches.0 }}"
+          - key: mtu
+            value: "{{ item.mtu.matches.0 }}"
+          - key: smp_affinity
+            value: "{{ item.smp.matches.0 }}"
+          - key: speed
+            value: "{{ item.speed.matches.0 }}"
+          - key: enabled
+            value: "{{ not item.enabled.matches }}"
+          - key: ipv4
+            object:
+              - key: address
+                value: "{{ item.ipaddr.matches.0 }}"
+              - key: netmask
+                value: "{{ item.ipaddr.matches.1 }}"
+  loop: "{{ matches }}"
+  register: interfaces
+  extend: vyos.config
+  export: yes
+  export_as: dict

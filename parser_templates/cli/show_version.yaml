@@ -1,0 +1,91 @@
+---
+- name: parser meta data
+  parser_metadata:
+    version: 1.0
+    command: show version
+    network_os: vyos
+
+- name: "match version"
+  pattern_match:
+    regex: 'Version:(\s*)(.*)'
+  register: version
+
+- name: "match description"
+  pattern_match:
+    regex: 'Description:(\s*)(.*)'
+  register: description
+
+- name: "match built timestamp"
+  pattern_match:
+    regex: 'Built on:(\s*)(.*)'
+  register: builton
+
+- name: "match build id"
+  pattern_match:
+    regex: 'Build ID:(\s*)(.*)'
+  register: buildid
+
+- name: "match h/w uuid"
+  pattern_match:
+    regex: 'HW UUID:(\s*)(.*)'
+  register: hwuuid
+
+- name: "match uptime"
+  pattern_match:
+    regex: 'Uptime:(\s*)([^,]*)'
+  register: uptime
+
+- name: "match description"
+  pattern_match:
+    regex: 'Description:(\s*)(.*)'
+  register: description
+
+- name: "match hypervisor"
+  pattern_match:
+    regex: 'Hypervisor:(\s*)(.*)'
+  register: hypervisor
+
+- name: "match hardware model"
+  pattern_match:
+    regex: 'HW model:(\s*)(.*)'
+  register: hw_model
+
+- name: "match system type"
+  pattern_match:
+    regex: 'System type:(\s*)(.*)'
+  register: system_type
+
+- name: "match hardware serial number"
+  pattern_match:
+    regex: 'HW S/N:(\s*)(.*)'
+  register: hw_sn
+
+- name: generate json data structure
+  json_template:
+    template:
+      - key: version
+        value: "{{ version.matches.1 }}"
+      - key: description
+        value: "{{ description.matches.1 }}"
+      - key: built-on
+        value: "{{ builton.matches.1 }}"
+      - key: build-id
+        value: "{{ buildid.matches.1 }}"
+      - key: hw-uuid
+        value: "{{ hwuuid.matches.1 }}"
+      - key: uptime
+        value: "{{ uptime.matches.1 }}"
+      - key: description
+        value: "{{ description.matches.1 }}"
+      - key: hypervisor
+        value: "{{ hypervisor.matches.1 }}"
+      - key: hardware-model
+        value: "{{ hw_model.matches.1 }}"
+      - key: system-type
+        value: "{{ system_type.matches.1 }}"
+      - key: hardware_serial_number
+        value: "{{ hw_sn.matches.1 }}"
+
+  export: yes
+  register: version
+

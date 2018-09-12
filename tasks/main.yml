@@ -10,6 +10,8 @@
       - load
       - save
       - noop
+      - get_config
+      - get_facts
 
 - name: validate the requested function is supported
   fail:

@@ -1,0 +1,24 @@
+---
+- name: run cli command pre hook
+  include_tasks: "{{ vyos_run_cli_command_pre_hook }}"
+  when: vyos_run_cli_command_pre_hook is defined and vyos_run_cli_command_pre_hook
+
+- name: run command and parse output
+  cli:
+    command: "{{ vyos_command }}"
+    parser: "{{ parser }}"
+    engine: "{{ vyos_parser_engine | default(None) }}"
+  with_first_found:
+    - files:
+        - "{{ vyos_parser }}"
+      paths:
+        - "{{ playbook_dir }}/parser_templates/vyos"
+        - "~/.ansible/ansible_network/parser_templates/vyos"
+        - "/etc/ansible/ansible_network/parser_templates/vyos"
+        - "{{ role_path }}/parser_templates"
+  loop_control:
+    loop_var: parser
+
+- name: run cli command post hook
+  include_tasks: "{{ vyos_run_cli_command_post_hook }}"
+  when: vyos_run_cli_command_post_hook is defined and vyos_run_cli_command_post_hook
