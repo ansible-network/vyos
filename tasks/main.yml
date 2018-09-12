@@ -7,8 +7,8 @@
 - name: set role supported functions
   set_fact:
     vyos_functions:
-      - load
-      - save
+      - config_manager/load
+      - config_manager/save
       - noop
 
 - name: validate the requested function is supported

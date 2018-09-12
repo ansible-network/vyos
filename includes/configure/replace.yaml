@@ -91,6 +91,7 @@
         - command: "delete file /tmp/{{ vyos_config_temp_config_file }}"
           prompt: "Do you want to erase the running:///tmp/{{ vyos_config_temp_config_file }} file"
           answer: 'y'
+    when: vyos_config_remove_temp_files
 
   - name: remove temp working dir
     file:
