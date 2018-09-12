@@ -7,11 +7,11 @@
 - name: set role supported functions
   set_fact:
     vyos_functions:
-      - load
-      - save
+      - config_manager/load
+      - config_manager/save
       - noop
-      - get_config
-      - get_facts
+      - config_manager/get_config
+      - config_manager/get_facts
 
 - name: validate the requested function is supported
   fail:
