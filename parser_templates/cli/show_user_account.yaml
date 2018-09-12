@@ -77,4 +77,3 @@
   loop: "{{ user_info }}"
   export: yes
   register: user_account_facts
-
