@@ -16,8 +16,8 @@ where the responder is VyOS.
         name: ansible-network.vyos
         tasks_from: cloud_vpn/configure_routing_responder
       vars:
-        cloud_vpn_responder_provider: vyos
-        cloud_vpn_responder_cidr: 192.168.0.0/24
+        cloud_vpn_initiator_provider: vyos
+        cloud_vpn_initiator_cidr: 10.0.0.0/24
 ```
 
 ## Notes
