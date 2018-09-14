@@ -2,7 +2,7 @@
 
 The `get_facts` function can be used to collect facts from VyOS
 devices.  This function is only supported over `network_cli` connection
-type and requires the `ansible_network_os` value set to `nxos`.
+type and requires the `ansible_network_os` value set to `vyos`.
 
 ## How to get facts from the device
 
