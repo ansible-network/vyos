@@ -1,6 +1,6 @@
 # Load configuration into device
-The `load` function provides a means to load a configuration file onto a
-target device running VYOS. The `load` function provides configuration
+The `config_manager/load` function provides a means to load a configuration file onto a
+target device running VYOS. The `config_manager/load` function provides configuration
 values that allow the source configuration to either be merged with the
 current active configuration (default) or to replace the current active
 configuration on the device.  
@@ -8,11 +8,11 @@ configuration on the device.
 
 ## How to load a configuration
 Loading a configuration onto a target device is fairly simple and
-straightforward. By default, the `load` function will merge the
+straightforward. By default, the `config_manager/load` function will merge the
 contents of the provided configuration file with the configuration running on
 the target device.  
 
-Below is an example of how to call the `load` function.
+Below is an example of how to call the `config_manager/load` function.
 
 ```
 - hosts: vyos
@@ -27,7 +27,7 @@ The example playbook above will simple load the contents of `vyos.cfg` onto the
 target network devices.
 
 ### How to load and replace a configuration
-The `load` function also provides support for replacing the current
+The `config_manager/load` function also provides support for replacing the current
 configuration on a device.
 
 In order to replace the configuration, the function as before but adds the
