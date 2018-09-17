@@ -1,0 +1,65 @@
+---
+- name: "check for required fact - name"
+  fail:
+    msg: "missing required fact: name"
+  with_items: "{{ users }}"
+  when: ( user.name is not defined )
+  loop_control:
+    loop_var: user
+  delegate_to: localhost
+
+- name: "check for required fact - sshkey_id"
+  fail:
+    msg: "missing required fact: sshkey_id; sshkey or sshkey_file was provided"
+  with_items: "{{ users }}"
+  when: ( user.sshkey is defined or user.sshkey_file is defined ) and ( user.sshkey_id is not defined )
+  loop_control:
+    loop_var: user
+  delegate_to: localhost
+
+- name: "check for required fact - sshkey_type"
+  fail:
+    msg: "missing required fact: sshkey_type; sshkey was provided"
+  with_items: "{{ users }}"
+  when: ( user.sshkey is defined and user.sshkey_type is not defined )
+  loop_control:
+    loop_var: user
+  delegate_to: localhost
+ 
+- name: "enter configuration mode"
+  cli:
+    command: configure
+    
+- name: "fetch user account details"
+  cli:
+    command: show system login user
+  register: user_details
+   
+- name: "exit configuration mode"
+  cli:
+    command: exit
+
+- name: "generate existing user(s) facts as JSON"
+  command_parser:
+    file: "{{ role_path}}/parser_templates/cli/show_user_account.yaml"
+    content: "{{ user_details.stdout }}"
+
+- name: "show existing user information"
+  debug:
+    var: user_account_facts
+ 
+- name: "filter out users that need to be configured"
+  set_fact:
+    users: "{{ users | difference(user_account_facts) }}"
+ 
+- name: "display users to configure"
+  debug:
+    var: users
+   
+- name: "fetch template for configuring user(s)"
+  set_fact:
+    vyos_config_file: 'configure_user.j2'
+  when: users
+
+- include_tasks: config_manager/load.yaml
+  when: users

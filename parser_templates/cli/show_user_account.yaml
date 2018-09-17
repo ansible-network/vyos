@@ -1,0 +1,79 @@
+---
+- name: parser meta data
+  parser_metadata:
+    version: 1.0
+    command: show system login user
+    network_os: vyos
+
+- name: "match users section"
+  pattern_match:
+    regex: "user .+"
+    match_all: yes
+    match_greedy: yes
+  register: users
+
+- name: "match user values"
+  pattern_group:
+    - name: "match name"
+      pattern_match:
+        regex: "user (\\S+)"
+        content: "{{ item }}"
+      register: name
+    
+    - name: "match level"
+      pattern_match:
+        regex: "level (\\S+)"
+        content: "{{ item }}"
+      register: level
+
+    - name: "match sshkey_id"
+      pattern_match:
+        regex: "public-keys (\\S+)"
+        content: "{{ item }}"
+      register: sshkey_id
+
+    - name: "match sshkey"
+      pattern_match:
+        regex: "key (.+)"
+        content: "{{ item }}"
+      register: sshkey
+
+    - name: "match key type"
+      pattern_match:
+        regex: "type (\\S+)"
+        content: "{{ item }}"
+      register: type
+
+    - name: "match full name"
+      pattern_match:
+        regex: "full-name (\\S+)"
+        content: "{{ item }}"
+      register: full_name
+ 
+  loop: "{{ users }}"
+  register: user_info
+
+- name: generate json data structure
+  json_template:
+    template:
+      - key: name
+        value: "{{ item.name.matches.0 }}"
+      - key: level
+        value: "{{ item.level.matches.0 }}"
+        when: item.level.matches.0 is defined
+      - key: full_name
+        value: "{{ item.full_name.matches.0 }}"
+        when: item.full_name.matches.0 is defined
+      - key: sshkey_id
+        value: "{{ item.sshkey_id.matches.0 }}"
+        when: item.sshkey_id.matches.0 is defined
+      - key: sshkey
+        value: "{{ item.sshkey.matches.0 }}"
+        when: item.sshkey.matches.0 is defined
+      - key: sshkey_type
+        value: "{{ item.type.matches.0 }}"
+        when: item.type.matches.0 is defined
+
+  loop: "{{ user_info }}"
+  export: yes
+  register: user_account_facts

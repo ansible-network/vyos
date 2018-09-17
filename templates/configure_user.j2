@@ -1,0 +1,36 @@
+{% for user in users %}
+
+{% if user.state is defined and user.state == 'absent' %}
+delete system login user {{ user.name }}
+
+{% else %}
+
+{% if user.password is not defined %}
+set system login user {{ user.name }}
+{% elif user.password %}
+set system login user {{ user.name }} authentication plaintext-password {{ user.password }}
+{% endif %}
+
+{% if user.level is defined %}
+set system login user {{ user.name }} level {{ user.level }}
+{% endif %}
+
+{% if user.full_name is defined %}
+set system login user {{ user.name }} full-name {{ user.full_name }}
+{% endif %}
+
+{% if user.sshkey_file is defined or user.sshkey is defined %}
+{% if user.sshkey_file is defined %}
+{% set key = user.sshkey_file.split(' ')[1] %}
+{% set type = user.sshkey_file.split(' ')[0] %}
+{% else %}
+{% set key = user.sshkey %}
+{% set type = user.sshkey_type %}
+{% endif %}
+set system login user {{ user.name }} authentication public-keys {{ user.sshkey_id }} key {{ key }}
+set system login user {{ user.name }} authentication public-keys {{ user.sshkey_id }} type {{ type }}
+{% endif %}
+
+
+{% endif %}
+{% endfor %}
