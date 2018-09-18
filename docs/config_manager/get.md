@@ -10,7 +10,7 @@ in the ``vyos.config`` top level facts key.
 ## How to get the device configuration
 Retrieving the configuration from the device involves just calling the
 `config_manager/get` function from the role.  By default, the `config_manager/get` role will
-return the device active (running) configuraiton.  The text configuration will
+return the device active (running) configuration.  The text configuration will
 be returned as a fact for the host.  The configuration text is stored in the
 `configuration` fact.
 
@@ -50,7 +50,7 @@ below.
 - hosts: vyos
 
   tasks:
-    - name: collect facts from cisco nxos devices
+    - name: collect facts from vyos devices
       include_role:
         name: ansible-network.vyos
         tasks_from: config_manager/get
@@ -58,8 +58,8 @@ below.
 
 ## How to add additional parsers
 
-The configuration facts are returned by this function are parsed using the
-parsers in the `parser_templates/config' folder.  To add a new parser, simply
+The configuration facts returned by this function are parsed using the
+parsers in the `parser_templates/config` folder.  To add a new parser, simply
 create a PR and add the new parser to the folder.  Once merged, the
 `config_manager/get` function will automatically use the new parser.
 
