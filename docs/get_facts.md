@@ -22,7 +22,7 @@ from the VyOS device.
       function: get_facts
 ```
 
-The above playbook will return the facts for the host under the `cisco_nxos`
+The above playbook will return the facts for the host under the `vyos`
 top level key.  
 
 ### Filter the subset of facts returned
@@ -30,19 +30,6 @@ top level key.
 By default all available facts will be returned by the `get_facts` function.
 If you only want to return a subset of the facts, you can specify the `subset`
 variable and set one or more sub keys to return.  
-
-For instance, the below will return only `interfaces` and `system` facts.
-
-```
-- hosts: vyos
-
-  roles:
-    - name ansible-network.vyos
-      function: get_facts
-      subset: 
-        - interfaces
-        - system
-```
 
 ### Implement using tasks
 
@@ -131,9 +118,9 @@ the parser.
 
 ## Arguments
 
-### nxos_get_facts_subset 
+### vyos_get_facts_subset 
 
-Defines the subset of facts to collection when the `get_facts` function is
+Defines the subset of facts to collect when the `get_facts` function is
 called.  This value must be a list value and contain only the sub keys for the
 facts you wish to return.
 
@@ -146,10 +133,8 @@ The default value is `all`
 #### Current supported values for subset are
 
 * default
-* bridging
-* bgp
 
-### nxos_get_facts_command_map
+### vyos_get_facts_command_map
 
 Defines the command / parser mapping file to use when the call to `get_facts`
 is made by the playbook.  Normally this value does not need to be modified but
