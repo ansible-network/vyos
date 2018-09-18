@@ -20,8 +20,8 @@ Below is an example of calling the `config_manager/get` function from the playbo
 - hosts: vyos
 
   roles:
-    - name ansible-network.vyos
-      function: config_mangaer/get
+    - name: ansible-network.vyos
+      function: config_manager/get
 ```
 
 The above playbook will return the current running config from each host listed
@@ -36,7 +36,7 @@ the value of `source` to `startup`.
 - hosts: vyos
 
   roles:
-    - name ansible-network.vyos
+    - name: ansible-network.vyos
       function: config_manager/get
       source: startup
 ```
