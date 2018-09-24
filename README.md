@@ -2,7 +2,7 @@
 
 This Ansible Network role provides a set of platform dependent fuctions that
 are designed to work with VyOS network devices.  The functions included
-int his role inlcuding both configuration and fact collection.
+in this role inlcude both configuration and fact collection.
 
 ## Requirements
 
