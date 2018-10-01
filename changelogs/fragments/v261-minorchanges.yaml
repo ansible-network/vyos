@@ -1,0 +1,2 @@
+minor_changes:
+- Added minimum Ansible version check `vyos#19 <https://github.com/ansible-network/vyos/pull/19>`_.

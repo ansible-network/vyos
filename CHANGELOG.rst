@@ -1,13 +1,34 @@
 ====================
-Ansible Network vyos
+Ansible Network VyOS
 ====================
 
-.. _Ansible Network vyos_v2.6.0:
+.. _Ansible Network VyOS_v2.6.1:
+
+v2.6.1
+======
+
+.. _Ansible Network VyOS_v2.6.1_Minor Changes:
+
+Minor Changes
+-------------
+
+- Added minimum Ansible version check `vyos#19 <https://github.com/ansible-network/vyos/pull/19>`_.
+
+
+.. _Ansible Network VyOS_v2.6.1_New Parser Templates:
+
+New Parser Templates
+--------------------
+
+- New Parser Template ``show_system_storage``
+
+
+.. _Ansible Network VyOS_v2.6.0:
 
 v2.6.0
 ======
 
-.. _Ansible Network vyos_v2.6.0_Major Changes:
+.. _Ansible Network VyOS_v2.6.0_Major Changes:
 
 Major Changes
 -------------
@@ -17,7 +38,7 @@ Major Changes
 - This role provides functions to perform automation activities on VyOS devices.
 
 
-.. _Ansible Network vyos_v2.6.0_New Functions:
+.. _Ansible Network VyOS_v2.6.0_New Functions:
 
 New Functions
 -------------
