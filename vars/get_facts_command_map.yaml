@@ -19,3 +19,9 @@
   parser: show_version.yaml
   groups:
     - default
+
+- command: show system storage
+  parser: show_system_storage.yaml
+  groups:
+    - default
+    - system

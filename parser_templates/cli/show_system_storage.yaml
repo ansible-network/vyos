@@ -1,0 +1,46 @@
+---
+- name: parser meta data
+  parser_metadata:
+    version: 1.0
+    command: show system storage
+    network_os: vyos
+
+- name: "match storage details section"
+  pattern_match:
+    regex: "^(?!Filesystem).+"
+    match_all: yes
+    match_greedy: yes
+  register: context
+  export: yes
+
+- name: "match storage values"
+  pattern_group:
+    - name: "match name"
+      pattern_match:
+        regex: "(\\S+)(\\s*)(\\S+)(\\s*)(\\S+)(\\s*)(\\S+)(\\s*)(\\S+)(\\s*)(\\S+)"
+        content: "{{ item }}"
+      register: storage
+
+  loop: "{{ context }}"
+  register: matches
+
+- name: generate json data structure
+  json_template:
+    template:
+      - key: "{{ item.storage.matches.0 }}"
+        object:
+          - key: size
+            value: "{{ item.storage.matches.2 }}"
+          - key: used
+            value: "{{ item.storage.matches.4 }}"
+          - key: available
+            value: "{{ item.storage.matches.6 }}"
+          - key: used-percentage
+            value: "{{ item.storage.matches.8 }}"
+          - key: mounted-on
+            value: "{{ item.storage.matches.10 }}"
+
+  loop: "{{ matches }}"
+  register: storage
+  extend: vyos.system
+  export: yes
