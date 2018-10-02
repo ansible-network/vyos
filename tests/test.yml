@@ -1,7 +1,0 @@
----
-# entry point for VyOS provider role tests
-
-- hosts: localhost
-  connection: local
-  roles:
-    - ansible-network.vyos
