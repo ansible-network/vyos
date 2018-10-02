@@ -30,9 +30,9 @@ target network devices.
 The `config_manager/load` function also provides support for replacing the current
 configuration on a device.
 
-In order to replace the configuration, the function as before but adds the
-value `replace: yes` to the playbook to indicate that the configuration should
-be replace.
+In order to replace the configuration, write the function as before but add the
+value `config_manager_replace: yes` to the playbook to indicate that the configuration should
+be replaced.
 
 Note: Take caution when doing configuration replace that you do not
 inadvertantly replace your access to the device.
