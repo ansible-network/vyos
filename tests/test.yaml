@@ -1,4 +1,0 @@
----
-# main entrypoint
-
-- import_playbook: config_manager/test.yaml
