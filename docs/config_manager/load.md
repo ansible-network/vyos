@@ -52,11 +52,11 @@ inadvertantly replace your access to the device.
 ### config_manager_text
 
 This value accepts the text form of the configuration to be loaded on to the remote device. 
-The configuration file should be the native set of commands used to configure the remote device
+The configuration file should be the native set of commands used to configure the remote device.
 
-The default value is `null`
+The default value is `null`.
 
-This value is *mutually exclusive* with `config_manager_file`
+This value is *mutually exclusive* with `config_manager_file`.
 
 
 ### config_manager_file
@@ -65,18 +65,18 @@ This value provides the path to the configuration file to load when
 the function is called. The path to the file can either be provided as
 relative to the playbook root or an absolute path.
 
-The default value is `null`
+The default value is `null`.
 
-This value is *mutually exclusive* with `config_manager_text`
+This value is *mutually exclusive* with `config_manager_text`.
 
 
 ### config_manager_replace
 
 This value enables or disables the configuration replace feature of the
 function. In order to use `config_manager_replace` the target device must
-support config replace function.
+support the config replace function.
 
-The default value is `False`
+The default value is `False`.
 
 
 ### vyos_config_remove_temp_files
@@ -86,7 +86,7 @@ preparing to load the configuration file for replace. There are two locations
 for temp files, one on the Ansible controller and one on the device. This
 argument accepts a boolean value.
 
-The default value is `True`
+The default value is `True`.
 
 ##### Aliases
 

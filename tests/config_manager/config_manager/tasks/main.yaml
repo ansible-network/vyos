@@ -5,4 +5,3 @@
 
 - name: test load function
   import_tasks: load.yaml
-

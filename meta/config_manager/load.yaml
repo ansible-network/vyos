@@ -11,12 +11,14 @@ argument_spec:
     description:
       - Provide the network device configuration as a single string.  The
         configuration text will be loaded onto the target network deivce.
+        This parameter is mutually exclusive with config_manager_file.
     type: str
 
   config_manager_file:
     description:
       - Provide a relative or absolute path to the configuration file to be
-        loaded onto the target network device.
+        loaded onto the target network device. This parameter is mutually
+        exclusive with config_manager_text.
     type: str
 
   config_manager_replace:
