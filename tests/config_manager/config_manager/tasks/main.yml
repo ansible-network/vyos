@@ -5,3 +5,6 @@
 
 - name: test load function
   import_tasks: load.yml
+
+- name: test replace function
+  import_tasks: replace.yml
