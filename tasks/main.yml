@@ -12,6 +12,7 @@
       - noop
       - config_manager/get
       - get_facts
+      - configure_user
 
 - name: validate the requested function is supported
   fail:

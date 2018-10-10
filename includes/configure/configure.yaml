@@ -47,7 +47,7 @@
     - name: display message
       debug:
         msg: "Successfully loaded configuration onto target device"
-      when: not ansible_check_mode
+      when: not ansible_check_mode and vyos_config_diff.stdout is not search("No changes")
 
     - name: leave configuration mode
       cli:

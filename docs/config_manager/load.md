@@ -20,7 +20,7 @@ Below is an example of how to call the `config_manager/load` function.
   roles:
     - name: ansible-network.vyos
       function: config_manager/load
-      config_file: vyos.cfg
+      config_manager_text: "{{ lookup('file', 'vyos.cfg') }}"
 ```
 
 The example playbook above will simple load the contents of `vyos.cfg` onto the
@@ -30,9 +30,9 @@ target network devices.
 The `config_manager/load` function also provides support for replacing the current
 configuration on a device.
 
-In order to replace the configuration, the function as before but adds the
-value `replace: yes` to the playbook to indicate that the configuration should
-be replace.
+In order to replace the configuration, write the function as before but add the
+value `config_manager_replace: yes` to the playbook to indicate that the configuration should
+be replaced.
 
 Note: Take caution when doing configuration replace that you do not
 inadvertantly replace your access to the device.
@@ -43,36 +43,41 @@ inadvertantly replace your access to the device.
   roles:
     - name: ansible-network.vyos
       function: config_manager/load
-      config_file: vyos.cfg
-      replace: yes
+      config_manager_text: "{{ lookup('file', 'vyos.cfg') }}"
+      config_manager_replace: yes
 ```
 
 ## Arguments
 
-### vyos_config_replace
+### config_manager_text
+
+This value accepts the text form of the configuration to be loaded on to the remote device. 
+The configuration file should be the native set of commands used to configure the remote device.
+
+The default value is `null`.
+
+This value is *mutually exclusive* with `config_manager_file`.
+
+
+### config_manager_file
+
+This value provides the path to the configuration file to load when
+the function is called. The path to the file can either be provided as
+relative to the playbook root or an absolute path.
+
+The default value is `null`.
+
+This value is *mutually exclusive* with `config_manager_text`.
+
+
+### config_manager_replace
 
 This value enables or disables the configuration replace feature of the
-function. In order to use `vyos_config_replace` the target device must
-support config replace function.
+function. In order to use `config_manager_replace` the target device must
+support the config replace function.
 
-The default value is `False`
+The default value is `False`.
 
-#### Aliases
-* replace
-
-### vyos_config_file
-
-This required value provides the path to the configuration file to load when
-the function is called. The path to the file can either be provided as
-relative to the playbook root or an absolute path.  
-
-The default value is `null`
-
-This value is *required*
-
-#### Aliases
-
-* config_file
 
 ### vyos_config_remove_temp_files
 
@@ -81,7 +86,7 @@ preparing to load the configuration file for replace. There are two locations
 for temp files, one on the Ansible controller and one on the device. This
 argument accepts a boolean value.
 
-The default value is `True`
+The default value is `True`.
 
 ##### Aliases
 
