@@ -7,11 +7,6 @@
   validate_role_spec:
     spec: config_manager/load.yaml
 
-- name: lookup config file
-  set_fact:
-    config_manager_text: "{{ lookup('config_template', config_manager_file) | join('\n') }}"
-  when: config_manager_file is defined
-
 - name: validate config_manager_text is defined
   fail:
     msg: "missing required arg: config_manager_text"
