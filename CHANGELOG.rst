@@ -2,6 +2,19 @@
 Ansible Network vyos
 ====================
 
+.. _Ansible Network vyos_v2.7.0:
+
+v2.7.0
+======
+
+.. _Ansible Network vyos_v2.7.0_Major Changes:
+
+Major Changes
+-------------
+
+- Initial release of 2.7.0 ``vyos`` Ansible role that is supported with Ansible 2.7.0
+
+
 .. _Ansible Network vyos_v2.6.2:
 
 v2.6.2
