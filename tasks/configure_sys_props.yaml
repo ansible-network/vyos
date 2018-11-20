@@ -1,9 +1,0 @@
----
-- name: "fetch template for configuring vlan(s)"
-  set_fact:
-    config_manager_text: "{{ lookup('config_template', 'configure_sys_props.j2') }}"
-  when: system_properties
-  delegate_to: localhost
-
-- include_tasks: config_manager/load.yaml
-  when: system_properties
