@@ -43,23 +43,23 @@
   command_parser:
     file: "{{ role_path}}/parser_templates/cli/show_user_account.yaml"
     content: "{{ user_details.stdout }}"
+  delegate_to: localhost
 
 - name: "show existing user information"
   debug:
     var: user_account_facts
+  delegate_to: localhost
  
 - name: "filter out users that need to be configured"
   set_fact:
     users: "{{ users | difference(user_account_facts) }}"
+  delegate_to: localhost
  
-- name: "display users to configure"
-  debug:
-    var: users
-   
 - name: "fetch template for configuring user(s)"
   set_fact:
-    vyos_config_file: 'configure_user.j2'
+    config_manager_text: "{{ lookup('config_template', 'configure_user.j2') }}"
   when: users
+  delegate_to: localhost
 
 - include_tasks: config_manager/load.yaml
   when: users

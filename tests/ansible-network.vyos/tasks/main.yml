@@ -1,5 +1,0 @@
----
-# tasks file for ansible-network.vyos
-
-- debug:
-    msg: "Dummy integration test for VyOS provider role"

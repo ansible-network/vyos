@@ -1,0 +1,45 @@
+---
+- debug: 
+    msg: "START config_manager/load.yaml replace function on connection={{ ansible_connection }}"
+
+- name: setup - remove syslog
+  vyos_config: &rm
+    lines:
+      - delete interfaces ethernet eth1
+      - delete interfaces ethernet eth2
+
+- name: fetch configuration
+  vyos_command:
+    commands: show configuration commands
+  register: show_config_result
+
+- name: configure interfaces
+  vyos_config:
+    lines:
+      - set interfaces ethernet eth1
+      - set interfaces ethernet eth1 description test-interface
+      - set interfaces ethernet eth2
+      - set interfaces ethernet eth2 description test-interface-2
+
+- name: include vyos load function
+  include_role:
+    name: "{{ vyos_role_path }}"
+    tasks_from: config_manager/load
+  vars:
+    config_manager_replace: True
+    config_manager_text: "{{ show_config_result.stdout[0] }}"
+
+- name: fetch configuration
+  junos_command:
+    commands: show configuration commands
+  register: show_config_result
+
+- assert:
+    that:
+      - "'set interfaces ethernet eth1 desctiption \\'test-interface\\'' not in show_config_result.stdout_lines[0]"
+      - "'set interfaces ethernet eth2 description \\'test-interface-2\\'' not in show_config_result.stdout_lines[0]"
+
+- name: teardown - remove syslog config
+  vyos_config: *rm
+
+- debug: msg="END config_manager/load.yaml replace function on connection={{ ansible_connection }}"

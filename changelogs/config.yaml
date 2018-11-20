@@ -16,6 +16,7 @@ sections:
 - ['new_modules', 'New Modules']
 - ['new_tasks', 'New Tasks']
 - ['new_functions', 'New Functions']
+- ['new_parser_templates', 'New Parser Templates']
 - ['bugfixes', 'Bugfixes']
 - ['known_issues', 'Known Issues']
 - ['docs', 'Documentation Updates']

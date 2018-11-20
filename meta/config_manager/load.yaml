@@ -1,0 +1,21 @@
+---
+argument_spec:
+
+  ansible_network_os:
+    description:
+      - Set the name of the Ansible network OS platform. This value should be
+        set to `vyos` for this provider.
+    required: true
+
+  config_manager_text:
+    description:
+      - Provide the network device configuration as a single string. The
+        configuration text will be loaded onto the target network deivce.
+    type: str
+
+  config_manager_replace:
+    description:
+      - This value enables or disables the configuration replace feature of
+        the function. This argument accepts a boolean value.
+    type: bool
+    default: false
