@@ -19,6 +19,7 @@ Please see the documentation link for each function for details on how to use
 the function in an Ansible playbook.
 
 * get_facts [[source]](https://github.com/ansible-network/vyos/blob/devel/tasks/get_facts.yaml) [[docs]](https://github.com/ansible-network/vyos/blob/devel/docs/get_facts.md)
+* configure_sys_props [[source]](https://github.com/ansible-network/vyos/blob/devel/tasks/configure_sys_props.yaml) [[docs]](https://github.com/ansible-network/vyos/blob/devel/docs/system_properties.md)
 
 ### Config Manager
 
