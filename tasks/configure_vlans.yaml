@@ -10,7 +10,7 @@
 
 - name: "check for required fact - interface"
   fail:
-    msg: "missing required fact: Vlan ID"
+    msg: "missing required fact: interface"
   with_items: "{{ vlans }}"
   when: ( vlan.interface is not defined )
   loop_control:
@@ -41,6 +41,7 @@
   set_fact:
     config_manager_text: "{{ lookup('config_template', 'configure_vlans.j2') }}"
   when: vlans
+  delegate_to: localhost
 
 - include_tasks: config_manager/load.yaml
   when: vlans
