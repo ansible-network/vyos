@@ -65,24 +65,34 @@ steps:
 
 ### hostname
 
-This will set the System host name for the VyOS deveice.
+This will set the System host name for the VyOS device.
 
 The default value is `omit` which means even if the user doesn't pass the respective
-value the role will continue to run without any failure
+value the role will continue to run without any failure.
 
 ### domain_name
 
-This will set the System domain name for the VyOS deveice.
+This will set the System domain name for the VyOS device.
 
 The default value is `omit` which means even if the user doesn't pass the respective 
-value the role will continue to run without any failure
+value the role will continue to run without any failure.
 
 ### name_server
 
-This will set the Domain Name Server (DNS) for the VyOS deveice.
+This will set the Domain Name Server (DNS) for the VyOS device.
 
 The default value is `omit` which means even if the user doesn't pass the respective 
-value the role will continue to run without any failure
+value the role will continue to run without any failure.
+
+### state
+
+This will set the hostname, domain-name and name-server value to the VyOS device and if
+the value of the state is changed to `absent`, role will go ahead and try to delete the
+hostname, domain-name and name-server passed via the arguments.
+
+The default value is `present` which means even if the user doesn't pass the respective
+argument, role will go ahead and try to set the hostname, domain-name and name-server 
+via the arguments passed to the VyOS device.
 
 ## Notes
 
