@@ -1,0 +1,12 @@
+{% for vlan in vlans %}
+
+{% if vlan.state is defined and vlan.state == 'absent' %}
+delete interfaces ethernet {{ vlan.interface }} vif {{ vlan.id}}
+
+{% else %}
+
+set interfaces ethernet {{ vlan.interface }} vif {{ vlan.id}} description '{{ vlan.description | default(omit) }}'
+set interfaces ethernet {{ vlan.interface }} vif {{ vlan.id}} address '{{ vlan.address | default(omit) }}'
+
+{% endif %}
+{% endfor %}
