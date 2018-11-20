@@ -1,7 +1,7 @@
 # Configure System properties on the device
 
-The `configure_sys_props` function can be used to set system properties on VyOS
-devices.  This function is only supported over `network_cli` connection
+The `configure_system_properties` function can be used to set system properties on 
+VyOS devices.  This function is only supported over `network_cli` connection
 type and requires the `ansible_network_os` value set to `vyos`.
 
 ## How to set System properties on the device
@@ -19,7 +19,7 @@ on the VyOS device.
 
   roles:
   - name ansible-network.vyos
-    function: configure_sys_props
+    function: configure_system_properties
   vars:
     system_properties:
       - hostname: test-vyos
@@ -32,11 +32,11 @@ the host under the `vyos` top level key.
 
 ### Implement using tasks
 
-The `configure_sys_props` function can also be implemented using the `tasks` directive
-instead of the `roles` directive.  By using the `tasks` directive, you can
+The `configure_system_properties` function can also be implemented using the `tasks` 
+directive instead of the `roles` directive.  By using the `tasks` directive, you can
 control when the fact collection is run. 
 
-Below is an example of how to use the `configure_sys_props` function with `tasks`.
+Below is an example of how to use the `configure_system_properties` function with `tasks`.
 
 ```
 - hosts: vyos
@@ -45,7 +45,7 @@ Below is an example of how to use the `configure_sys_props` function with `tasks
     - name: set system properties to vyos devices
       import_role:
         name: ansible-network.vyos
-        tasks_from: configure_sys_props
+        tasks_from: configure_system_properties
       vars:
         system_properties:
           - hostname: test-vyos
