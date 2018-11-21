@@ -18,7 +18,7 @@
       cli:
         command: compare
       register: vyos_config_diff
-      changed_when: vyos_config_diff.stdout
+      changed_when: vyos_config_diff.stdout is not search("No changes")
 
     - name: display config diff
       debug:
