@@ -1,0 +1,15 @@
+{% for sys_prop in system_properties %}
+
+{% if sys_prop.state is defined and sys_prop.state == 'absent' %}
+delete system host-name {{ sys_prop.hostname | default(omit) }}
+delete system domain-name {{ sys_prop.domain_name | default(omit) }}
+delete system name-server {{ sys_prop.name_server | default(omit) }}
+
+{% else %}
+
+set system host-name {{ sys_prop.hostname | default(omit) }}
+set system domain-name {{ sys_prop.domain_name | default(omit) }}
+set system name-server {{ sys_prop.name_server | default(omit) }}
+
+{% endif %}
+{% endfor %}
