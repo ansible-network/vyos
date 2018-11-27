@@ -40,7 +40,12 @@ Major Changes
 - Initial release of 2.7.0 ``vyos`` Ansible role that is supported with Ansible 2.7.0
 
 
-.. _Ansible Network vyos_v2.7.0_Bugfixes:
+.. _Ansible Network vyos_v2.6.2:
+
+v2.6.2
+======
+
+.. _Ansible Network vyos_v2.6.2_Bugfixes:
 
 Bugfixes
 --------
