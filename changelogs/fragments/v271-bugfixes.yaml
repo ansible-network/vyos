@@ -1,0 +1,3 @@
+bugfixes:
+- Fixed compare functionality to exhibit correct behavior `vyos-#39 <https://github.com/ansible-network/vyos/pull/39>`_.
+- Fixed ``configure_user`` task parameters `vyos-#33 <https://github.com/ansible-network/vyos/pull/33>`_.
