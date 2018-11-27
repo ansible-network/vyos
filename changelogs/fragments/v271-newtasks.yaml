@@ -1,0 +1,3 @@
+new_tasks:
+- Added ``configure_vlans`` tasks `vyos-#34 <https://github.com/ansible-network/vyos/pull/34>`_.
+- Added ``configure_system_properties`` task `vyos-#38 <https://github.com/ansible-network/vyos/pull/38>`_.
