@@ -2,6 +2,31 @@
 Ansible Network vyos
 ====================
 
+.. _Ansible Network vyos_v2.7.1:
+
+v2.7.1
+======
+
+.. _Ansible Network vyos_v2.7.1_New Tasks:
+
+New Tasks
+---------
+
+- Added ``configure_vlans`` tasks `vyos-#34 <https://github.com/ansible-network/vyos/pull/34>`_.
+
+- Added ``configure_system_properties`` task `vyos-#38 <https://github.com/ansible-network/vyos/pull/38>`_.
+
+
+.. _Ansible Network vyos_v2.7.1_Bugfixes:
+
+Bugfixes
+--------
+
+- Fixed compare functionality to exhibit correct behavior `vyos-#39 <https://github.com/ansible-network/vyos/pull/39>`_.
+
+- Fixed ``configure_user`` task parameters `vyos-#33 <https://github.com/ansible-network/vyos/pull/33>`_.
+
+
 .. _Ansible Network vyos_v2.7.0:
 
 v2.7.0
