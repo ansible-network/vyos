@@ -1,0 +1,20 @@
+{% for item in lldp %}
+
+{% if item.state is defined and item.state == 'absent' %}
+delete service lldp
+
+{% else %}
+
+set service lldp
+set service lldp interface {{ item.interface_location | default(omit) }}
+{% if item.interface is defined %}
+set service lldp interface {{ item.interface | default(omit) }} disable
+{% endif %}
+set service lldp legacy-protocols {{ item.legacy_protocols | default(omit) }}
+set service lldp management-address {{ item.management_address | default(omit) }}
+{% if item.snmp is defined %}
+set service lldp snmp enable
+{% endif %}
+
+{% endif %}
+{% endfor %}
