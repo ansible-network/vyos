@@ -97,7 +97,8 @@ value the role will continue to run without any failure.
 
 ### snmp
 
-To enable SNMP queries of the LLDP database.
+To enable SNMP queries of the LLDP database. Please note that SNMP must be already 
+configured to enable LLDP SNMP.
 
 The default value is `omit` which means even if the user doesn't pass the respective
 value the role will continue to run without any failure.
