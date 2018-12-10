@@ -105,13 +105,13 @@ value the role will continue to run without any failure.
 
 ### state
 
-This sets the LLDP value to the Cisco IOS-XR device and if the value of the state is changed
+This sets the LLDP value to the VyOS device and if the value of the state is changed
 to `absent`, the role will go ahead and try to delete the condifured LLDP via the arguments
 passed.
 
 The default value is `present` which means even if the user doesn't pass the respective
 argument, the role will go ahead and try to set the LLDP via the arguments passed to the 
-Cisco IOS-XR device.
+VyOS device.
 
 ## Notes
 
