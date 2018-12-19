@@ -12,14 +12,15 @@
     msg: "missing required arg: config_manager_text"
   when: config_manager_text is undefined
 
-- name: Include replace task
+- name: load configuration into device using configure replace
   include_tasks: includes/configure/replace.yaml
   when: vyos_config_replace
   vars:
     vyos_config_text: "{{ config_manager_text }}"
 
-- name: Include configure task
-  include_tasks: includes/configure/configure.yaml
+- name: load configuration into device
+  cli_config:
+    config: "{{ vyos_config_text }}"
   when: not vyos_config_replace
   vars:
     vyos_config_text: "{{ config_manager_text }}"
