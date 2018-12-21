@@ -32,10 +32,22 @@
       dest: "/tmp/{{ vyos_config_temp_config_file }}"
 
   - block:
-    - name: replace currect running configuration
+    - name: replace current running configuration
       cli_config:
         config: "load /tmp/{{ vyos_config_temp_config_file }}"
+        commit_comment: "{{ vyos_config_commit_comment }}"
+        commit: yes
       register: vyos_config_replace_result
+
+    - name: display message
+      debug:
+        msg: "successfully replaced running config"
+      when: not ansible_check_mode and vyos_config_replace_result.changed == True 
+
+    - name: display message
+      debug:
+        msg: "configuration not replaced - nothing to commit"
+      when: not ansible_check_mode and vyos_config_replace_result.changed == False
 
   always:
   - name: remove uploaded configuration
@@ -55,4 +67,5 @@
   - name: set host failed
     fail:
       msg: "error loading configuration on target device, replace failed"
-    when: vyos_config_replace_result.failed == True
+    when: vyos_config_replace_result.failed == True and not ansible_check_mode
+
