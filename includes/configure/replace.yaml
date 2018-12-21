@@ -41,12 +41,12 @@
 
     - name: display message
       debug:
-        msg: "successfully replaced running config"
+        msg: "successfully replaced running configuration"
       when: not ansible_check_mode and vyos_config_replace_result.changed == True 
 
     - name: display message
       debug:
-        msg: "configuration not replaced - nothing to commit"
+        msg: "running configuration not replaced - nothing to commit"
       when: not ansible_check_mode and vyos_config_replace_result.changed == False
 
   always:
