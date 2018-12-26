@@ -1,7 +1,7 @@
 ---
 # defaults file for ansible-network.vyos
 #
-vyos_config_commit_comment: "{{ commit_comment | default(None) }}"
+vyos_config_commit_comment: "{{ commit_comment | default(omit) }}"
 vyos_config_replace: "{{ config_manager_replace | default(False) }}"
 vyos_config_working_dir: ~/.ansible/vyos
 vyos_config_temp_config_file: "tmp_{{ inventory_hostname_short }}"
