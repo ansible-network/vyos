@@ -2,6 +2,31 @@
 Ansible Network vyos
 ====================
 
+.. _Ansible Network vyos_v2.7.2:
+
+v2.7.2
+======
+
+.. _Ansible Network vyos_v2.7.2_New Tasks:
+
+New Tasks
+=========
+
+- Added ``configure_lldp`` task `vyos-#44 <https://github.com/ansible-network/vyos/pull/44>`_.
+
+
+.. _Ansible Network vyos_v2.7.2_Minor Changes:
+
+Minor Changes
+=============
+
+- Update ``config_manager/load`` function to use cli_config `vyos-#48 <https://github.com/ansible-network/vyos/pull/48>`_.
+
+- Implement ``replace`` functionality using cli_config and cli_command `vyos-#49 <https://github.com/ansible-network/vyos/pull/49>`_.
+
+- Update ``load`` and ``replace`` tests `vyos-#50 <https://github.com/ansible-network/vyos/pull/50>`_.
+
+
 .. _Ansible Network vyos_v2.7.1:
 
 v2.7.1

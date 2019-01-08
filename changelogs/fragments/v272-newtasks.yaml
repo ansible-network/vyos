@@ -1,0 +1,2 @@
+new_tasks:
+- Added ``configure_lldp`` task `vyos-#44 <https://github.com/ansible-network/vyos/pull/44>`_.
