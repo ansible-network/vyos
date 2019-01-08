@@ -24,7 +24,7 @@ Minor Changes
 
 - Implement ``replace`` functionality using cli_config and cli_command `vyos-#49 <https://github.com/ansible-network/vyos/pull/49>`_.
 
-- Update ``load`` and ``replace`` tests `vyos-#50 <https://github.com/ansible-network/vyos/pull/50`_.
+- Update ``load`` and ``replace`` tests `vyos-#50 <https://github.com/ansible-network/vyos/pull/50>`_.
 
 
 .. _Ansible Network vyos_v2.7.1:
