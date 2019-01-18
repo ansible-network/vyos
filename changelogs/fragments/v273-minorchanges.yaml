@@ -1,0 +1,3 @@
+minor_changes:
+- Use default template on cloud vpn when peer provider folder is not present
+- Remove unused set defaults task files since now cloud vpn uses include_role defaults_from
