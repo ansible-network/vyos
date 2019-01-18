@@ -1,0 +1,3 @@
+---
+cloud_vpn_initiator_user: vyos
+cloud_vpn_initiator_outside_interface: eth0
