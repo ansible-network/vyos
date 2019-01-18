@@ -1,0 +1,3 @@
+---
+cloud_vpn_responder_user: vyos
+cloud_vpn_responder_outside_interface: eth0
