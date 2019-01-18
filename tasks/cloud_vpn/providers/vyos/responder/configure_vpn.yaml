@@ -2,5 +2,12 @@
 
 - name: Push VPN configuration to VyOS device
   vyos_config:
-    src: "cloud_vpn/providers/vyos/responder/{{ cloud_vpn_initiator_provider }}/configure_vpn.j2"
+    src: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - configure_vpn.j2
+      paths:
+        - "templates/cloud_vpn/providers/vyos/responder/{{ cloud_vpn_initiator_provider }}"
+        - templates/cloud_vpn/providers/vyos/responder
   delegate_to: responder
