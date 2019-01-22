@@ -2,6 +2,21 @@
 Ansible Network vyos
 ====================
 
+.. _Ansible Network vyos_v2.7.3:
+
+v2.7.3
+======
+
+.. _Ansible Network vyos_v2.7.3_New Tasks:
+
+Minor Changes
+=============
+
+- Use default template on cloud vpn when peer provider folder is not present `vyos-#53 <https://github.com/ansible-network/vyos/pull/53>`_.
+
+- Remove unused set defaults task files since now cloud vpn uses include_role defaults_from `vyos-#52 <https://github.com/ansible-network/vyos/pull/52>`_.
+
+  
 .. _Ansible Network vyos_v2.7.2:
 
 v2.7.2
