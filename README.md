@@ -1,8 +1,8 @@
 # vyos
 
-This Ansible Network role provides a set of platform dependent fuctions that
+This Ansible Network role provides a set of platform dependent functions that
 are designed to work with VyOS network devices.  The functions included
-in this role inlcude both configuration and fact collection.
+in this role include both configuration and fact collection. 
 
 ## Requirements
 
@@ -11,7 +11,7 @@ in this role inlcude both configuration and fact collection.
 
 ## Functions
 
-This section provides a list of the availabe functions that are including
+This section provides a list of the available functions that are including 
 in this role.  Any of the provided functions can be implemented in Ansible
 playbooks to perform automation activities on VyOS devices.
 
