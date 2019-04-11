@@ -1,0 +1,14 @@
+- hosts: controller
+  tasks:
+    - name: echo inventory
+      shell: cat /etc/ansible/hosts
+
+    - name: bootstrap venv
+      shell: tox -evenv --notest
+      args:
+        chdir: ~/src/github.com/ansible-network/vyos
+
+    - name: ansible
+      shell: .tox/venv/bin/ansible-playbook -v -c network_cli tests/vyos.yaml
+      args:
+        chdir: ~/src/github.com/ansible-network/vyos
