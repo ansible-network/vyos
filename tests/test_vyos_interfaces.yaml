@@ -1,0 +1,38 @@
+---
+- hosts: appliance
+  gather_facts: no
+  tasks:
+    - debug: 
+        msg: "START vyos_interfaces integration tests on connection={{ ansible_connection }}"
+
+    - cli_config: &rm
+        config: "{{ lines }}"
+      vars: &lines
+        lines: |
+          delete interfaces ethernet eth0 description
+      
+    - name: Merge provided interface configuration with running configuration
+      vyos_interfaces: &merge
+        config:
+          - name: eth0
+            description: Configured by Ansible
+        state: merged
+      register: result
+
+    - assert:
+        that:
+          - "'set interfaces ethernet eth0 description \\'Configured by Ansible\\'' in result.commands"
+     
+    - name: Merge provided interface configuration with running configuration (IDEMPOTENT)
+      vyos_interfaces: *merge
+      register: result
+
+    - assert:
+        that:
+          - 'result.changed == false'
+
+    - cli_config: *rm
+      vars: *lines
+
+    - debug:
+        msg: "END vyos_interfaces integration tests on connection={{ ansible_connection }}" 
