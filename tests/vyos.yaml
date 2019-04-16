@@ -16,6 +16,11 @@
           - set service ssh disable-password-authentication
         save: true
 
+    - debug:
+        msg: "START vyos integration tests on connection={{ ansible_connection }}"
+
+    - import_tasks: test_vyos_interfaces.yaml
+
 - hosts: appliance
   gather_facts: false
   tasks:

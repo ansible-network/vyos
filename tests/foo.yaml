@@ -12,3 +12,4 @@
       shell: .tox/venv/bin/ansible-playbook -v -c network_cli tests/vyos.yaml
       args:
         chdir: ~/src/github.com/ansible-network/vyos
+
